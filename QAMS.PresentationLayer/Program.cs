@@ -4,14 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using QAMS.DataAccessLayer.DataContext;
 using QAMS.DataAccessLayer.Repository.Question;
 using QAMS.PresentationLayer.Helper;
+using QAMS.ServiceLayer.authService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("deafultDB")));
-
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IQuestionRepository , QuestionRepository>();
+
 //automaper service
 var automapper = new MapperConfiguration(item => item.AddProfile(new MapperClass()));
 IMapper mapper = automapper.CreateMapper();
@@ -47,6 +50,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();

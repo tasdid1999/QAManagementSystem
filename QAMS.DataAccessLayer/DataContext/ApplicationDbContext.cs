@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace QAMS.DataAccessLayer.DataContext
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
-    {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int>
         {
+            public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+                : base(options)
+            {
+            }
+
         }
 
-
-    }
 }

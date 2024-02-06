@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using QAMS.DataAccessLayer.DataContext;
+using QAMS.ServiceLayer.ClientEntity;
 
 namespace QAMS.PresentationLayer.Helper
 {
@@ -7,7 +9,7 @@ namespace QAMS.PresentationLayer.Helper
         {
             public MapperClass()
             {
-                
+                CreateMap<ApplicationUser,RegisterViewModel>().ReverseMap();
             }
         }
     

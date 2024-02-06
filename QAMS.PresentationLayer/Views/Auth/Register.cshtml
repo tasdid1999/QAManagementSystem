@@ -1,0 +1,86 @@
+﻿@model QAMS.ServiceLayer.ClientEntity.RegisterViewModel
+<html>
+    <head>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/JobPortal.styles.css" asp-append-version="true" />
+        <link href="~/lib/font-awesome/css/all.css" rel = "stylesheet" asp-append-version="true" />
+    </head>
+    <body class = "bg-clr">
+    @{
+        
+        if(ViewBag.EmailExist)
+        {
+          <div class="alert alert-danger w-50 m-auto text-center " role="alert">
+               Email Already Exist
+          </div>
+        }
+        
+        if(ViewBag.RegistrationOk)
+        {
+           <div class="alert alert-success w-50 m-auto text-center " role="alert">
+               Registration Successfull
+          </div>
+        }
+        
+        }
+        <div class = "container border w-25 mt-5 shadow p-3 mb-2 bg-white rounded">
+           <div class = "container mw-100 action-clr" style = "height:60px">
+               <h1 class = "bg-primary text-light text-center py-1">Register</h1>
+           </div>
+           <form asp-action = "SignUp">
+               
+               <div class = "form-group p-1">
+                   <i class="fa-solid fa-envelope"></i>
+                   <label  asp-for = "Email" >Email</label>
+                   <input asp-for = "Email"  class = "form-control mt-1" type = "Email" />
+                   <span asp-validation-for = "Email" class = "text-danger"></span>
+               </div>
+            <div class="form-group p-1">
+                <i class="fa-solid fa-envelope"></i>
+                <label asp-for="Name">User Name</label>
+                <input asp-for="Name" class="form-control mt-1" type="text" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1">
+                <i class="fa-solid fa-envelope"></i>
+                <label asp-for="InstituteName">Institute Name</label>
+                <input asp-for="InstituteName" class="form-control mt-1" type="text" />
+                <span asp-validation-for="InstituteName" class="text-danger"></span>
+            </div>
+
+               <div class = "form-group p-1">
+                   <i class="fa-solid fa-lock"></i>
+                    <label asp-for = "Password">Password</label>
+                     <input asp-for = "Password" class = "form-control mt-1" type = "password" />
+                     <span asp-validation-for = "Password" class = "text-danger" ></span>
+               </div>
+                <div class = "form-group p-1">
+                    <i class="fa-solid fa-lock"></i>
+                    <label asp-for = "ConfirmPassword" >Confirm Password</label>
+                     <input asp-for = "ConfirmPassword" class = "form-control mt-1" type = "password" />
+                     <span asp-validation-for = "ConfirmPassword" class = "text-danger" ></span>
+               </div>
+                <div class = "form-group p-1">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <label asp-for = "Role" >Role</label>
+                    <select asp-for = "Role" class = "form-control" name="role">
+                        <option value = "nothing">----Select your role----</option>
+                        <option value = "teacher">Teacher</option>
+                        <option value = "student">Student</option>
+                    </select>
+                   <span asp-validation-for = "Role" class = "text-danger" ></span>
+               </div>
+              
+             <div class="form-group text-center mt-2">
+                <input type = "submit" value = "Register" asp-controller = "Auth" asp-action="Register" class="btn btn-dark"/>
+             </div>
+
+           </form>
+        </div>
+         <div class = "text-center">
+             <span>already you have an account ?</span>
+             <a  asp-controller = "Auth" asp-action = "Login">Login</a>
+         </div>
+    </body>
+</html>
