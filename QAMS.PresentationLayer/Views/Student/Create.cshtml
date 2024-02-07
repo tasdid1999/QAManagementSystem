@@ -10,6 +10,23 @@
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
+    @{
+
+        if (ViewBag.Created)
+        {
+            <div class="alert alert-success w-50 m-auto text-center " role="alert">
+                Question Pulbished Succesfully!
+            </div>
+        }
+
+        if (ViewBag.SomethingWrong)
+        {
+            <div class="alert alert-danger w-50 m-auto text-center " role="alert">
+               Something went wrong!
+            </div>
+        }
+
+    }
     <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-md-6 offset-md-3">

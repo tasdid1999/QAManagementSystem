@@ -1,4 +1,7 @@
-﻿using QAMS.DataAccessLayer.Domain;
+﻿
+using QAMS.DataAccessLayer.Domain;
+using QAMS.DataAccessLayer.Helper;
+using QAMS.DataAccessLayer.ResponseVm.question;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +14,10 @@ namespace QAMS.DataAccessLayer.Repository.question
     {
         public Task Create(Question question);
 
-        public Task<List<Question>> GetAll();
+        public Task<PaginatedList<QuestionResponseVm>> GetAll(int page , int pageSize);
 
-        public Task<Question> GetById(int id);
+        public Task<List<QuestionResponseVm>>GetAllById(int id);
+
+        public Task<QuestionResponseVm?> GetById(int id);
     }
 }

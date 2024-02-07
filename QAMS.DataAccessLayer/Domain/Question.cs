@@ -10,10 +10,13 @@ namespace QAMS.DataAccessLayer.Domain
 {
     public class Question : BaseEntity
     {
+        [Required]
+        [MinLength(3)]
+        public string Title { get; set; }
 
         [Required]
         [MinLength(20)]
-        public string QuestionDescription { get; set; }
+        public string Description { get; set; }
 
 
     }

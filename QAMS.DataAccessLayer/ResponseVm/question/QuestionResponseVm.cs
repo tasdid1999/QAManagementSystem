@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QAMS.ServiceLayer.ClientEntity.question
+namespace QAMS.DataAccessLayer.ResponseVm.question
 {
     public class QuestionResponseVm
     {
@@ -12,5 +12,7 @@ namespace QAMS.ServiceLayer.ClientEntity.question
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

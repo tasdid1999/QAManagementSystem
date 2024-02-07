@@ -32,17 +32,17 @@ namespace QAMS.ServiceLayer.authService
 
             IList<string> roles = new List<string>();
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 var ExistingUser = await _userManager.FindByEmailAsync(user.Email);
-                if(ExistingUser is not null)
+                if (ExistingUser is not null)
                 {
                     roles = await _userManager.GetRolesAsync(ExistingUser);
                     return roles;
                 }
 
                 return roles;
-                
+
             }
 
 
@@ -54,7 +54,7 @@ namespace QAMS.ServiceLayer.authService
 
             var IdentityUser = _mapper.Map<ApplicationUser>(user);
 
-             IdentityUser.UserName = user.Email;
+            IdentityUser.UserName = user.Email;
 
             var result = await _userManager.CreateAsync(IdentityUser, user.Password);
 
@@ -69,10 +69,10 @@ namespace QAMS.ServiceLayer.authService
                 else
                 {
                     var role = new IdentityRole<int>(user.Role);
-                    
+
                     if (_roleManager.CreateAsync(role).Result.Succeeded)
                     {
-                       return  _userManager.AddToRoleAsync(userByEmail, user.Role).Result.Succeeded ? true : false;
+                        return _userManager.AddToRoleAsync(userByEmail, user.Role).Result.Succeeded ? true : false;
                     }
                     else
                     {
@@ -81,7 +81,7 @@ namespace QAMS.ServiceLayer.authService
 
 
                 }
-                
+
             }
             return result.Succeeded ? true : false;
         }
@@ -98,12 +98,8 @@ namespace QAMS.ServiceLayer.authService
 
         public async Task LogOutAsync()
         {
-             await _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
         }
 
-        public async Task<int> GetUserId()
-        {
-            var id = await _userManager.GetUserIdAsync();
-        }
     }
 }

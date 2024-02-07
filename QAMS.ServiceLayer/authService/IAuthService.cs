@@ -15,7 +15,7 @@ namespace QAMS.ServiceLayer.authService
 
         public Task<bool> IsEmailExist(string email);
 
-        public Task<int> GetUserId();
+       
 
         public Task LogOutAsync();
 

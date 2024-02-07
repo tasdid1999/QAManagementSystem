@@ -33,11 +33,11 @@ namespace QAMS.PresentationLayer.Controllers
 
                         if (roles[0] == "student")
                         {
-                            return RedirectToAction("GetAll", "Question");   
+                            return RedirectToAction("GetAll", "Student");   
                         }
                         else if (roles[0] == "teacher")
                         {
-                            return RedirectToAction("Login", "Auth");
+                            return RedirectToAction("GetAll", "Teacher");
                         }
                         else
                         {
