@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using QAMS.DataAccessLayer.DataContext;
-using QAMS.DataAccessLayer.Repository.Question;
+using QAMS.DataAccessLayer.Repository.question;
 using System;
 using System.Collections.Generic;
 using System.Linq;

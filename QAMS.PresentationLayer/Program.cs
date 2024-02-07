@@ -2,7 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QAMS.DataAccessLayer.DataContext;
-using QAMS.DataAccessLayer.Repository.Question;
+using QAMS.DataAccessLayer.Repository.question;
+
 using QAMS.PresentationLayer.Helper;
 using QAMS.ServiceLayer.authService;
 

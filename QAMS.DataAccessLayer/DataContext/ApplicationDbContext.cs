@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using QAMS.DataAccessLayer.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace QAMS.DataAccessLayer.DataContext
             {
             }
 
-        }
+          public DbSet<Question> questions { get; set; }
 
+        }
 }

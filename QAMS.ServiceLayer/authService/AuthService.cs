@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using QAMS.DataAccessLayer.DataContext;
-using QAMS.ServiceLayer.ClientEntity;
+using QAMS.ServiceLayer.ClientEntity.auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace QAMS.ServiceLayer.authService
 {
     public class AuthService : IAuthService
@@ -27,11 +26,27 @@ namespace QAMS.ServiceLayer.authService
             _roleManager = roleManager;
             _mapper = mapper;
         }
-        public async Task<bool> LoginAsync(LoginViewModel user)
+        public async Task<IList<string>> LoginAsync(LoginViewModel user)
         {
             var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, false, false);
 
-            return result.Succeeded ? true : false;
+            IList<string> roles = new List<string>();
+
+            if(result.Succeeded)
+            {
+                var ExistingUser = await _userManager.FindByEmailAsync(user.Email);
+                if(ExistingUser is not null)
+                {
+                    roles = await _userManager.GetRolesAsync(ExistingUser);
+                    return roles;
+                }
+
+                return roles;
+                
+            }
+
+
+            return roles;
         }
 
         public async Task<bool> RegisterAsync(RegisterViewModel user)
@@ -84,6 +99,11 @@ namespace QAMS.ServiceLayer.authService
         public async Task LogOutAsync()
         {
              await _signInManager.SignOutAsync();
+        }
+
+        public async Task<int> GetUserId()
+        {
+            var id = await _userManager.GetUserIdAsync();
         }
     }
 }

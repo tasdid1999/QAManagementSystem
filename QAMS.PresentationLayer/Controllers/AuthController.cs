@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using QAMS.ServiceLayer.authService;
-using QAMS.ServiceLayer.ClientEntity;
+using QAMS.ServiceLayer.ClientEntity.auth;
 
 namespace QAMS.PresentationLayer.Controllers
 {
@@ -19,18 +20,30 @@ namespace QAMS.PresentationLayer.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> LoginAsync(LoginViewModel user)
+        public async Task<IActionResult> Login(LoginViewModel user)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var isSucces = await _authService.LoginAsync(user);
+                    var roles = await _authService.LoginAsync(user);
 
-                    if (isSucces)
+                    if (!roles.IsNullOrEmpty())
                     {
-                        ModelState.Clear();
-                        ViewBag.WrongCredential = false;
+
+                        if (roles[0] == "student")
+                        {
+                            return RedirectToAction("GetAll", "Question");   
+                        }
+                        else if (roles[0] == "teacher")
+                        {
+                            return RedirectToAction("Login", "Auth");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Login", "Auth");
+                        }
+                       
                     }
                     else
                     {
@@ -54,7 +67,7 @@ namespace QAMS.PresentationLayer.Controllers
             return View();
         }
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync(RegisterViewModel user)
+        public async Task<IActionResult> Register(RegisterViewModel user)
         {
             try
             {
@@ -89,19 +102,18 @@ namespace QAMS.PresentationLayer.Controllers
                 return View(ex);
             }
         }
-        public async Task<IActionResult> LogoutAsync()
+        public async Task<IActionResult> Logout()
         {
             try
             {
                 await _authService.LogOutAsync();
+                return RedirectToAction("Login","Auth");
             }
             catch (Exception ex)
             {
                 return View(ex);
             }
 
-            return View();
-           
         }
     }
 

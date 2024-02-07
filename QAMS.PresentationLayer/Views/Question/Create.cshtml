@@ -1,0 +1,46 @@
+﻿@model QAMS.ServiceLayer.ClientEntity.question.QuestionRequestVm
+@{
+    Layout = "_StudentLayout";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/JobPortal.styles.css" asp-append-version="true" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" asp-append-version="true" />
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <h2 class="text-align-center text-light">Write Your Question Here</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <div class="form-group mt-2">
+                                <label asp-for="Title"></label>
+                                <input asp-for="Title" class="form-control" placeholder="Enter title" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+
+                            </div>
+                            <div class="form-group mt-2">
+                                <label asp-for="Description"></label>
+                                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+
+                            </div>
+
+                            <div class="text-center">
+                                <input type="submit" class="btn btn-success mt-2" value="post" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

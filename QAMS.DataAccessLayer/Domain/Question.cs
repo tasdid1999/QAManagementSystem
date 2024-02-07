@@ -6,17 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QAMS.ServiceLayer.Domain
+namespace QAMS.DataAccessLayer.Domain
 {
     public class Question : BaseEntity
     {
-        [Required]
-        [MinLength(3)]
-        public string Tilte { get; set; }
 
         [Required]
         [MinLength(20)]
-        public string Description { get; set; }
+        public string QuestionDescription { get; set; }
 
 
     }

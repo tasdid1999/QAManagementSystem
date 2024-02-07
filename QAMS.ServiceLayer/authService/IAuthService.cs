@@ -1,5 +1,4 @@
-﻿
-using QAMS.ServiceLayer.ClientEntity;
+﻿using QAMS.ServiceLayer.ClientEntity.auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +9,13 @@ namespace QAMS.ServiceLayer.authService
 {
     public interface IAuthService
     {
-        Task<bool> LoginAsync(LoginViewModel user);
+        Task<IList<string>> LoginAsync(LoginViewModel user);
 
         Task<bool> RegisterAsync(RegisterViewModel user);
 
         public Task<bool> IsEmailExist(string email);
+
+        public Task<int> GetUserId();
 
         public Task LogOutAsync();
 
