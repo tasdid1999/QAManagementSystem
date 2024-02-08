@@ -1,6 +1,8 @@
-﻿@model IEnumerable<QAMS.DataAccessLayer.ResponseVm.question.QuestionResponseVm>
+﻿@model IEnumerable<QuestionResponseVm>
 @{
     Layout = "_StudentLayout";
+    string ControllerName = "Student";
+    string ActionName = "GetById";
 }
 <html>
 <head>
@@ -13,14 +15,13 @@
 
     @foreach (var item in Model)
     {
-        <div class="card">
+        <div class="card mt-2">
             <div class="card-body">
-                <h5 class="card-title">@item.Title</h5>
-                <p class="card-text">@item.Description</p>
-                <small class="mt-1">Created time : @item.CreatedAt</small><br>
-                <a href="@Url.Action("GetById", "Student", new { id = item.Id })" class="btn btn-primary mt-2">View</a>
+            <partial name="_QuestionCard" model="@item" />
+            <partial name="_CardLink" model="new {controllerName = ControllerName, actionName = ActionName,Id = item.Id }" />
             </div>
         </div>
+      
     }
 
 </body>

@@ -6,6 +6,7 @@ using QAMS.DataAccessLayer.Repository.question;
 using QAMS.DataAccessLayer.UnitOfWork;
 using QAMS.PresentationLayer.Helper;
 using QAMS.ServiceLayer.authService;
+using QAMS.ServiceLayer.comment;
 using QAMS.ServiceLayer.questionService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +16,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("deafultDB")));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IQuestionService , QuestionService>();
 

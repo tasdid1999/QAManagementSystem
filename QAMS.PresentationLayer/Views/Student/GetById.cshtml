@@ -1,4 +1,4 @@
-﻿@model QAMS.DataAccessLayer.ResponseVm.question.QuestionResponseVm
+﻿@model QuestionAndCommentVm
 @{
     Layout = "_StudentLayout";
 }
@@ -12,15 +12,18 @@
 <body>
 
     
-        <div class="card mt-2">
-            <div class="card-body">
-                <h5 class="card-title">@Model.Title</h5>
-                <p class="card-text">@Model.Description</p>
-                <small class="mt-1">Created time : @Model.CreatedAt</small><br>
-                
-            </div>
-        </div>
+       <partial name = "_QuestionCard"model = "@Model.Question"/>
    
-        <hr class="mt-5 mb-5" />
+        <hr class="mt-5" />
+        <h3>comments</h3>
+        <hr class="mb-2" />
+        @if (Model.Question.IsCommentBoxActivate)
+        {
+            <form method="post" asp-controller="Student" asp-action="Comment">
+           
+                <partial name ="_commentBox" model = "Model.CommentRequestVm" />
+            
+           </form>
+        }
 </body>
 </html>

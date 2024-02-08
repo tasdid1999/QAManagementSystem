@@ -19,5 +19,7 @@ namespace QAMS.DataAccessLayer.DataContext
 
           public DbSet<Question> questions { get; set; }
 
+          public DbSet<Comment> comments { get; set; }
+
         }
 }

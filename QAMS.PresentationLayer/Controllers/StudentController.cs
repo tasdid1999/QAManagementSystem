@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QAMS.DataAccessLayer.DataContext;
+using QAMS.ServiceLayer.ClientEntity.comment;
+using QAMS.ServiceLayer.ClientEntity.common;
 using QAMS.ServiceLayer.ClientEntity.question;
+using QAMS.ServiceLayer.comment;
 using QAMS.ServiceLayer.questionService;
 
 namespace QAMS.PresentationLayer.Controllers
@@ -11,10 +14,12 @@ namespace QAMS.PresentationLayer.Controllers
     public class StudentController : Controller
     {
         private readonly IQuestionService _questionService;
+        private readonly ICommentService _commentService;
         private readonly UserManager<ApplicationUser> _userManager;
-        public StudentController(IQuestionService questionService, UserManager<ApplicationUser> userManager)
+        public StudentController(IQuestionService questionService, ICommentService commentService, UserManager<ApplicationUser> userManager)
         {
             _questionService = questionService;
+            _commentService = commentService;   
             _userManager = userManager;
         }
         [HttpGet]
@@ -97,17 +102,56 @@ namespace QAMS.PresentationLayer.Controllers
         {
             try
             {
+
                 var question = await _questionService.GetQuestionByIdAsync(id);
+
+            
                 if(question is not null)
                 {
+                    var userId = Convert.ToInt32(HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
                    
-                    return View(question);
+                    if (question.CreatedBy == userId)
+                    {
+                        question.IsCommentBoxActivate = false;
+                    }
+                    var comments = await _commentService.GetAll(question.Id);
+
+                    var response = new QuestionAndCommentVm(question, comments);
+
+                    return View(response);
                 }
                 else
                 {
                     return RedirectToAction("GetAll","Student");
                 }
                
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Comment(CommentRequestVm comment)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+
+                {
+                    var userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                    var isSucces = await _commentService.Create(comment, Convert.ToInt32(userId));
+
+                    if (isSucces)
+                    {
+                        ModelState.Clear();
+                        return View();
+                    }
+                }
+            
+
+                return View(comment);
             }
             catch (Exception ex)
             {

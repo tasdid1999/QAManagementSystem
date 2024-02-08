@@ -14,5 +14,9 @@ namespace QAMS.DataAccessLayer.ResponseVm.question
         public string Description { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public int CreatedBy { get; set; }
+
+        public bool IsCommentBoxActivate { get; set; } = true;
     }
 }

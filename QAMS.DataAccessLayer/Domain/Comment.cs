@@ -1,25 +1,21 @@
-﻿using QAMS.DataAccessLayer.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace QAMS.DataAccessLayer.Domain
 {
-    public class Question : BaseEntity
+    public class Comment : BaseEntity
     {
-        [Required]
-        [MinLength(3)]
-        public string Title { get; set; }
+        [ForeignKey(nameof(Question))]
+        public int QuestionId { get; set; }
+
+        public virtual Question Question { get; set; }
 
         [Required]
-        [MinLength(20)]
         public string Description { get; set; }
-
-        public virtual List<Comment> Comments { get; set; }
-
-
     }
 }

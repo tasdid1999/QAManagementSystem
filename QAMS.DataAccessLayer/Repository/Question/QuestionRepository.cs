@@ -37,6 +37,7 @@ namespace QAMS.DataAccessLayer.Repository.question
                                      Title = question.Title,
                                      Description = question.Description,
                                      CreatedAt = question.CreatedAt
+                                     
                                  });
             var response = await PaginatedList<QuestionResponseVm>.CreateAsync(query, page, pageSize);
 
@@ -53,7 +54,8 @@ namespace QAMS.DataAccessLayer.Repository.question
                                      Id = question.Id,
                                      Title = question.Title,
                                      Description = question.Description,
-                                     CreatedAt = question.CreatedAt
+                                     CreatedAt = question.CreatedAt,
+                                    
                                  })
                                  .ToListAsync();
         }
@@ -63,7 +65,11 @@ namespace QAMS.DataAccessLayer.Repository.question
            return await _context.questions
                                 .Where(question => question.Id == id)
                                 .AsNoTracking()
-                                .Select(question => new QuestionResponseVm { Description = question.Description,Title = question.Title , CreatedAt = question.CreatedAt })
+                                .Select(question => new QuestionResponseVm {Id = question.Id,
+                                                                            Description = question.Description,
+                                                                            Title = question.Title,
+                                                                            CreatedAt = question.CreatedAt,
+                                                                            CreatedBy = question.CreatedBy })
                                 .FirstOrDefaultAsync();
         }
     }

@@ -1,4 +1,4 @@
-﻿@model QAMS.DataAccessLayer.ResponseVm.question.QuestionResponseVm
+﻿@model QuestionResponseVm
 @{
     Layout = "_TeacherLayout";
 }
@@ -11,16 +11,15 @@
 </head>
 <body>
 
-    
-        <div class="card mt-2">
-            <div class="card-body">
-                <h5 class="card-title">@Model.Title</h5>
-                <p class="card-text">@Model.Description</p>
-                <small class="mt-1">Created time : @Model.CreatedAt</small><br>
-                
-            </div>
+
+         <partial name="_QuestionCard" model="@Model"  />
+
+        <hr class="mt-5" />
+        <h3>comments</h3>
+        <hr class="mb-2" />
+
+        <div>
+            <partial name="_commentBox" />
         </div>
-   
-        <hr class="mt-5 mb-5" />
 </body>
 </html>

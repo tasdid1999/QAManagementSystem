@@ -1,4 +1,5 @@
-﻿using QAMS.DataAccessLayer.Repository.question;
+﻿using QAMS.DataAccessLayer.Repository.comment;
+using QAMS.DataAccessLayer.Repository.question;
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace QAMS.DataAccessLayer.UnitOfWork
     {
         IQuestionRepository QuestionRepository { get; }
 
+        ICommentRepository CommentRepository { get; }
         Task<bool> SaveChangesAsync();
     }
 }

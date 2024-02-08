@@ -1,0 +1,9 @@
+﻿@model dynamic
+
+@{
+    string controllerName = Model.controllerName;
+    string actionName = Model.actionName;
+    int id = Model.Id;
+}
+
+<a href="@Url.Action(actionName, controllerName, new { id = id })" class="btn btn-dark mt-2">View</a>
