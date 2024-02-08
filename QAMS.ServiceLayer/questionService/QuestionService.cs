@@ -24,33 +24,90 @@ namespace QAMS.ServiceLayer.questionService
         }
         public async Task<bool> CreateQuestionAsync(QuestionRequestVm question, int userId)
         {
-            var entity = _mapper.Map<Question>(question);
+            try
+            {
+                var entity = _mapper.Map<Question>(question);
 
-            entity.CreatedAt = DateTime.UtcNow;
-            entity.CreatedBy = userId;
-            entity.StatusId = 1;
+                entity.CreatedAt = DateTime.UtcNow;
+                entity.CreatedBy = userId;
+                entity.StatusId = 1;
 
-            await _unitOfWork.QuestionRepository.Create(entity);
+                await _unitOfWork.QuestionRepository.Create(entity);
 
-            return await _unitOfWork.SaveChangesAsync();
+                return await _unitOfWork.SaveChangesAsync();
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> DeleteQuestionAsync(int questionid)
+        {
+            try
+            {
+                    var question = await _unitOfWork.QuestionRepository.GetQuestionWithNoComments(questionid);
+                   
+                    if (question is not null)
+                    {
+                        //soft delete
+                        question.StatusId = 0;
+
+                        return await _unitOfWork.SaveChangesAsync();
+
+                    }
+                    return false;
+                 
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<QuestionResponseVm>> GetAllQuestionBasedOnTeacherComment(int userId)
+        {
+           return await _unitOfWork.QuestionRepository.GetAllQuestionBasedOnTeacherComment(userId);
+
         }
 
         public async Task<PaginatedList<QuestionResponseVm>> GetAllQuestionsAsync(int page , int pageSize)
         {
-            var listOfQuestion = await _unitOfWork.QuestionRepository.GetAll(page, pageSize);
+            try
+            {
+                var listOfQuestion = await _unitOfWork.QuestionRepository.GetAll(page, pageSize);
 
-            return listOfQuestion;
+                return listOfQuestion;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<List<QuestionResponseVm>> GetAllQuestionsByIdAsync(int id)
         {
-            var listOfQuestion = await _unitOfWork.QuestionRepository.GetAllById(id);
+            try
+            {
+                var listOfQuestion = await _unitOfWork.QuestionRepository.GetAllById(id);
 
-            return listOfQuestion;
+                return listOfQuestion;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public Task<QuestionResponseVm?> GetQuestionByIdAsync(int id)
         {
-           return _unitOfWork.QuestionRepository.GetById(id);
+            try
+            {
+                return _unitOfWork.QuestionRepository.GetById(id);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
     }
 }

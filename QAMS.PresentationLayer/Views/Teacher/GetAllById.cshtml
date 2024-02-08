@@ -1,0 +1,28 @@
+﻿@model IEnumerable<QuestionResponseVm>
+@{
+    Layout = "_TeacherLayout";
+    string ControllerName = "Teacher";
+    string ActionName = "GetById";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/JobPortal.styles.css" asp-append-version="true" />
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" asp-append-version="true" />
+</head>
+<body>
+
+    @foreach (var item in Model)
+    {
+        <div class="card mt-2">
+            <div class="card-body">
+                <partial name="_QuestionCard" model="@item" />
+                <partial name="_CardLink" model="new {controllerName = ControllerName, actionName = ActionName,Id = item.Id }" />
+            </div>
+        </div>
+
+    }
+
+</body>
+</html>

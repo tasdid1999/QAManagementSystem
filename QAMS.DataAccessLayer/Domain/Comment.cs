@@ -17,5 +17,9 @@ namespace QAMS.DataAccessLayer.Domain
 
         [Required]
         public string Description { get; set; }
+
+        [Required]
+        public string CommentorName { get; set; }
+
     }
 }

@@ -35,6 +35,10 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireNonAlphanumeric = false;
 
 });
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = builder.Configuration["Account:LoginPath"];
+});
 
 var app = builder.Build();
 

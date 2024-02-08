@@ -18,6 +18,10 @@ namespace QAMS.DataAccessLayer.Repository.question
 
         public Task<List<QuestionResponseVm>>GetAllById(int id);
 
+        public Task<List<QuestionResponseVm>> GetAllQuestionBasedOnTeacherComment(int userId);
+
         public Task<QuestionResponseVm?> GetById(int id);
+
+        public Task<Question?> GetQuestionWithNoComments(int id);
     }
 }

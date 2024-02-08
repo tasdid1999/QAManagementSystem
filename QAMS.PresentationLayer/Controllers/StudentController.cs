@@ -22,7 +22,7 @@ namespace QAMS.PresentationLayer.Controllers
             _commentService = commentService;   
             _userManager = userManager;
         }
-        [HttpGet]
+        [HttpGet("/student/post-question")]
         public IActionResult Create()
         {
             ViewBag.Created = false;
@@ -30,7 +30,7 @@ namespace QAMS.PresentationLayer.Controllers
 
             return View();
         }
-        [HttpPost]
+        [HttpPost("/student/post-question")]
         public async Task<IActionResult> Create(QuestionRequestVm question)
         {
             try
@@ -62,7 +62,7 @@ namespace QAMS.PresentationLayer.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("/student/questions")]
         public async Task<IActionResult> GetAll(int pageNumber)
         {
             try
@@ -80,7 +80,7 @@ namespace QAMS.PresentationLayer.Controllers
                 return View(ex.Message);
             }
         }
-        [HttpGet]
+        [HttpGet("/student/my-questions")]
         public async Task<IActionResult> GetAllById()
         {
             try
@@ -89,7 +89,9 @@ namespace QAMS.PresentationLayer.Controllers
 
                 var questions = await _questionService.GetAllQuestionsByIdAsync(Convert.ToInt32(userId));
 
-                
+                ViewBag.Deleted = false;
+                ViewBag.NoTDeleted = false;
+
                 return View(questions);
             }
             catch (Exception ex)
@@ -97,7 +99,7 @@ namespace QAMS.PresentationLayer.Controllers
                 return View(ex.Message);
             }
         }
-        [HttpGet]
+        [HttpGet("/student/question/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -146,7 +148,7 @@ namespace QAMS.PresentationLayer.Controllers
                     if (isSucces)
                     {
                         ModelState.Clear();
-                        return View();
+                        return RedirectToAction("GetById","Student",new {id = comment.QuestionId});
                     }
                 }
             
@@ -158,6 +160,25 @@ namespace QAMS.PresentationLayer.Controllers
                 return View(ex.Message);
             }
         }
+        public async Task<IActionResult> Delete(int id)
+        {
+            var isDeleted = await _questionService.DeleteQuestionAsync(id);
+            if (isDeleted)
+            {
+                ViewBag.Deleted = true;
+                ViewBag.NoTDeleted = false;
+                return RedirectToAction("GetAllById", "Student");
+            }
+            else
+            {
+                ViewBag.Deleted = false;
+                ViewBag.NoTDeleted = true;
+                return RedirectToAction("GetAllById", "Student");
+            }
+        }
+           
+            
+        }
 
     }
-}
+

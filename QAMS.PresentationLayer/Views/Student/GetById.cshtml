@@ -11,19 +11,40 @@
 </head>
 <body>
 
+    @{
+
+        if (ViewBag.Deleted)
+        {
+            <div class="alert alert-success w-50 m-auto text-center " role="alert">
+               "deleted successfully!"
+            </div>
+        }
+
+        if (ViewBag.NotDeleted)
+        {
+            <div class="alert alert-danger w-50 m-auto text-center " role="alert">
+                someone already Commented on this question !
+            </div>
+        }
+
+    }
     
        <partial name = "_QuestionCard"model = "@Model.Question"/>
    
-        <hr class="mt-5" />
-        <h3>comments</h3>
-        <hr class="mb-2" />
+       
+        <h3 class="text-center bg-dark text-light py-1 mt-3">comments</h3>
+        
         @if (Model.Question.IsCommentBoxActivate)
         {
             <form method="post" asp-controller="Student" asp-action="Comment">
-           
+               
+                <input name ="QuestionId" type = "hidden" value="@Model.Question.Id">
                 <partial name ="_commentBox" model = "Model.CommentRequestVm" />
             
            </form>
         }
+      <div>
+        <partial name="_CommentList" model="Model.Comments" />
+     </div>
 </body>
 </html>

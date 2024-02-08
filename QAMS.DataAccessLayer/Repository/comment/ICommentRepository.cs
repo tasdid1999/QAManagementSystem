@@ -13,5 +13,7 @@ namespace QAMS.DataAccessLayer.Repository.comment
         Task Create(Comment comment);
 
         Task<List<CommentResponseVm>> GetAll(int questionId);
+
+        Task<bool> IsAnyCommentExist(int questionId);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using QAMS.DataAccessLayer.DataContext;
 using QAMS.DataAccessLayer.Domain;
 using QAMS.DataAccessLayer.ResponseVm.comment;
 using QAMS.DataAccessLayer.UnitOfWork;
@@ -15,27 +17,53 @@ namespace QAMS.ServiceLayer.comment
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public CommentService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userManager = userManager;
         }
         public async Task<bool> Create(CommentRequestVm comment,int userId)
         {
-            var entity = _mapper.Map<Comment>(comment);
-            entity.StatusId = 1;
-            entity.CreatedBy = userId;
-            entity.CreatedAt = DateTime.Now;
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId.ToString());
 
-            await _unitOfWork.CommentRepository.Create(entity);
+                if (user is not null)
+                {
+                    var entity = _mapper.Map<Comment>(comment);
+                    entity.StatusId = 1;
+                    entity.CreatedBy = userId;
+                    entity.CreatedAt = DateTime.Now;
+                    entity.CommentorName = user.Name;
+                    entity.QuestionId = comment.QuestionId;
 
-            return await _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.CommentRepository.Create(entity);
+
+                    return await _unitOfWork.SaveChangesAsync();
+                }
+
+                return false;
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+           
         }
 
         public async Task<List<CommentResponseVm>> GetAll(int questionId)
         {
-           return await _unitOfWork.CommentRepository.GetAll(questionId);
+            try
+            {
+                return await _unitOfWork.CommentRepository.GetAll(questionId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

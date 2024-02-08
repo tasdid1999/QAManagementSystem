@@ -20,7 +20,7 @@ namespace QAMS.PresentationLayer.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel user)
+        public async Task<IActionResult> Login(LoginViewModel user, string ReturnUrl = "")
         {
             try
             {
@@ -28,27 +28,35 @@ namespace QAMS.PresentationLayer.Controllers
                 {
                     var roles = await _authService.LoginAsync(user);
 
-                    if (!roles.IsNullOrEmpty())
+                    if (!String.IsNullOrEmpty(ReturnUrl))
                     {
-
-                        if (roles[0] == "student")
-                        {
-                            return RedirectToAction("GetAll", "Student");   
-                        }
-                        else if (roles[0] == "teacher")
-                        {
-                            return RedirectToAction("GetAll", "Teacher");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Login", "Auth");
-                        }
-                       
+                        return LocalRedirect(ReturnUrl);
                     }
                     else
                     {
-                        ViewBag.WrongCredential = true;
+                        if (!roles.IsNullOrEmpty())
+                        {
+
+                            if (roles[0] == "student")
+                            {
+                                return RedirectToAction("GetAll", "Student");
+                            }
+                            else if (roles[0] == "teacher")
+                            {
+                                return RedirectToAction("GetAll", "Teacher");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Login", "Auth");
+                            }
+
+                        }
+                        else
+                        {
+                            ViewBag.WrongCredential = true;
+                        }
                     }
+
                 }
                 ViewBag.WrongCredential = false;
                 return View(user);

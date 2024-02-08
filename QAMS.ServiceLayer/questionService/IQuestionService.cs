@@ -14,7 +14,11 @@ namespace QAMS.ServiceLayer.questionService
     {
         Task<bool> CreateQuestionAsync(QuestionRequestVm question,int userId);
         Task<PaginatedList<QuestionResponseVm>> GetAllQuestionsAsync(int page , int pageSize);
+
+        Task<List<QuestionResponseVm>> GetAllQuestionBasedOnTeacherComment(int userId);
         Task<List<QuestionResponseVm>> GetAllQuestionsByIdAsync(int id);
         Task<QuestionResponseVm?> GetQuestionByIdAsync(int id);
+
+        Task<bool> DeleteQuestionAsync(int questionid);
     }
 }
