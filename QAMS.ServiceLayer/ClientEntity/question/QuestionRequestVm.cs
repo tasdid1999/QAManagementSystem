@@ -16,5 +16,7 @@ namespace QAMS.ServiceLayer.ClientEntity.question
         [Required(ErrorMessage = "Required Field")]
         [MinLength(20, ErrorMessage = "at least 20 character need")]
         public string Description { get; set; }
+
+       
     }
 }

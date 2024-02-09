@@ -1,4 +1,5 @@
 ﻿using QAMS.DataAccessLayer.Domain;
+using QAMS.DataAccessLayer.Helper;
 using QAMS.DataAccessLayer.ResponseVm.comment;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace QAMS.DataAccessLayer.Repository.comment
     {
         Task Create(Comment comment);
 
-        Task<List<CommentResponseVm>> GetAll(int questionId);
+        Task<PaginatedList<CommentResponseVm>> GetAll(int questionId,int page , int pageSize);
 
-        Task<bool> IsAnyCommentExist(int questionId);
+        
     }
 }

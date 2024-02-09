@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 
 using QAMS.DataAccessLayer.DataContext;
 using QAMS.DataAccessLayer.Domain;
@@ -6,6 +7,7 @@ using QAMS.DataAccessLayer.Helper;
 using QAMS.DataAccessLayer.ResponseVm.question;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,11 +61,11 @@ namespace QAMS.DataAccessLayer.Repository.question
             }
         }
 
-        public async Task<List<QuestionResponseVm>> GetAllById(int id)
+        public async Task<PaginatedList<QuestionResponseVm>> GetAllById(int id,int page , int pageSize)
         {
             try
             {
-                return await _context.questions
+                var query =  _context.questions
                                 .AsNoTracking()
                                 .Where(question => question.CreatedBy == id && question.StatusId == 1)
                                 .Select(question => new QuestionResponseVm
@@ -72,9 +74,12 @@ namespace QAMS.DataAccessLayer.Repository.question
                                     Title = question.Title,
                                     Description = question.Description,
                                     CreatedAt = question.CreatedAt,
+                                });
 
-                                })
-                                .ToListAsync();
+                var response = await PaginatedList<QuestionResponseVm>.CreateAsync(query, page, pageSize);
+
+                return response;
+
             }
             catch(Exception)
             {
@@ -82,21 +87,23 @@ namespace QAMS.DataAccessLayer.Repository.question
             }
         }
 
-        public async Task<List<QuestionResponseVm>> GetAllQuestionBasedOnTeacherComment(int userId)
+        public async Task<PaginatedList<QuestionResponseVm>> GetAllQuestionBasedOnTeacherComment(int userId, int page, int pageSize)
         {
-           return await _context.questions
-                        .AsNoTracking()
-                        .Include(x => x.Comments)
-                        .Where(q => q.Comments.Any(c => c.CreatedBy == userId) && q.StatusId == 1)
-                        .Select(question => new QuestionResponseVm
-                        {
-                            Id = question.Id,
-                            Title = question.Title,
-                            Description = question.Description,
-                            CreatedAt = question.CreatedAt,
-                        })
-                        .ToListAsync();
-             
+            var query =  _context.questions
+                                      .AsNoTracking()
+                                      .Include(x => x.Comments)
+                                      .Where(q => q.Comments.Any(c => c.CreatedBy == userId) && q.StatusId == 1)
+                                      .Select(question => new QuestionResponseVm
+                                      {
+                                          Id = question.Id,
+                                          Title = question.Title,
+                                          Description = question.Description,
+                                          CreatedAt = question.CreatedAt,
+                                      });
+           var response = await PaginatedList<QuestionResponseVm>.CreateAsync(query, page, pageSize);
+
+           return response;
+
         }
 
         public async Task<QuestionResponseVm?> GetById(int id)

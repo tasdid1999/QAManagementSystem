@@ -1,11 +1,11 @@
-﻿@model IEnumerable<CommentResponseVm>
+﻿@model PaginatedList<CommentResponseVm>
 
 <div class="container mt-3">
    
-    @if (Model.Any())
+    @if (Model.Items.Any())
     {
         <div class="list-group mb-5">
-            @foreach (var comment in Model)
+            @foreach (var comment in Model.Items)
             {
                 <div class="list-group-item">
                     <div class="d-flex w-100 justify-content-between">
@@ -16,9 +16,12 @@
                 </div>
             }
         </div>
+        <partial name="_paging" />
     }
     else
     {
         <h4 class="text-center text-danger">No comments available.</h4>
     }
+
+    
 </div>

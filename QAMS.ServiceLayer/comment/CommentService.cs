@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using QAMS.DataAccessLayer.DataContext;
 using QAMS.DataAccessLayer.Domain;
+using QAMS.DataAccessLayer.Helper;
 using QAMS.DataAccessLayer.ResponseVm.comment;
 using QAMS.DataAccessLayer.UnitOfWork;
 using QAMS.ServiceLayer.ClientEntity.comment;
@@ -54,11 +55,11 @@ namespace QAMS.ServiceLayer.comment
            
         }
 
-        public async Task<List<CommentResponseVm>> GetAll(int questionId)
+        public async Task<PaginatedList<CommentResponseVm>> GetAll(int questionId, int page, int pageSize)
         {
             try
             {
-                return await _unitOfWork.CommentRepository.GetAll(questionId);
+                return await _unitOfWork.CommentRepository.GetAll(questionId,page,pageSize);
             }
             catch (Exception)
             {

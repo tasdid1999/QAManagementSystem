@@ -18,6 +18,6 @@ namespace QAMS.DataAccessLayer.ResponseVm.question
         public int CreatedBy { get; set; }
 
         public int StatusId { get; set; }
-        public bool IsCommentBoxActivate { get; set; } = true;
+        public bool IsCommentBoxActivate { get; set; } = false;
     }
 }

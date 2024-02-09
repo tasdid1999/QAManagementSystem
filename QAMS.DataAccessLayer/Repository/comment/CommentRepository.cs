@@ -1,12 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using QAMS.DataAccessLayer.DataContext;
 using QAMS.DataAccessLayer.Domain;
+using QAMS.DataAccessLayer.Helper;
 using QAMS.DataAccessLayer.ResponseVm.comment;
+using QAMS.DataAccessLayer.ResponseVm.question;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace QAMS.DataAccessLayer.Repository.comment
 {
@@ -31,15 +36,18 @@ namespace QAMS.DataAccessLayer.Repository.comment
             }
         }
 
-        public Task<List<CommentResponseVm>> GetAll(int questionId)
+        public async Task<PaginatedList<CommentResponseVm>> GetAll(int questionId, int page, int pageSize)
         {
             try
             {
-                return _context.comments.AsNoTracking()
+                var query = _context.comments.AsNoTracking()
                                   .Where(comment => comment.QuestionId == questionId)
                                   .OrderByDescending(comment => comment.CreatedAt)
-                                  .Select(comment => new CommentResponseVm { Description = comment.Description, Id = comment.Id, CommentorName = comment.CommentorName, CreatedAt = comment.CreatedAt })
-                                  .ToListAsync();
+                                  .Select(comment => new CommentResponseVm { Description = comment.Description, Id = comment.Id, CommentorName = comment.CommentorName, CreatedAt = comment.CreatedAt });
+                                  
+                var response = await PaginatedList<CommentResponseVm>.CreateAsync(query, page, pageSize);
+
+                return response;
             }
             catch (Exception)
             {
@@ -47,18 +55,6 @@ namespace QAMS.DataAccessLayer.Repository.comment
             }
         }
 
-        public async Task<bool> IsAnyCommentExist(int questionId)
-        {
-            try
-            {
-                return await _context.comments
-                               .AsNoTracking()
-                               .AnyAsync(comment => comment.QuestionId == questionId);
-            }
-            catch(Exception)
-            {
-                throw;
-            }
-        }
+       
     }
 }

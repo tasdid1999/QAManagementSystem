@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuestionResponseVm>
+﻿@model PaginatedList<QuestionResponseVm>
 @{
     Layout = "_TeacherLayout";
     string ControllerName = "Teacher";
@@ -13,16 +13,23 @@
 </head>
 <body>
 
-    @foreach (var item in Model)
+    @if (Model.Items.Any())
     {
-        <div class="card mt-2">
-            <div class="card-body">
-                <partial name="_QuestionCard" model="@item" />
-                <partial name="_CardLink" model="new {controllerName = ControllerName, actionName = ActionName,Id = item.Id }" />
+        @foreach (var item in Model.Items)
+        {
+            <div class="card mt-2">
+                <div class="card-body">
+                    <partial name="_QuestionCard" model="@item" />
+                    <partial name="_CardLink" model="new {controllerName = ControllerName, actionName = ActionName,Id = item.Id }" />
+                </div>
             </div>
-        </div>
 
+        }
+        <partial name="_paging" />
     }
-
+    else
+    {
+        <h4 class="text-danger text-center">No Question Available</h4>
+    }
 </body>
 </html>

@@ -12,14 +12,14 @@
 <body>
     @{
 
-        if (ViewBag.Created)
+        if ((bool)TempData["Created"])
         {
             <div class="alert alert-success w-50 m-auto text-center " role="alert">
                 Question Pulbished Succesfully!
             </div>
         }
 
-        if (ViewBag.SomethingWrong)
+        if ((bool)TempData["SomethingWrong"])
         {
             <div class="alert alert-danger w-50 m-auto text-center " role="alert">
                Something went wrong!

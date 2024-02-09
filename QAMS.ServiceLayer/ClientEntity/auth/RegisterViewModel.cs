@@ -33,5 +33,7 @@ namespace QAMS.ServiceLayer.ClientEntity.auth
         [Required(ErrorMessage = "Field Can not be null")]
         public string Role { get; set; }
 
+        public string? StudentId { get; set; }
+
     }
 }

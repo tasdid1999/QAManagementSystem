@@ -43,13 +43,13 @@ namespace QAMS.PresentationLayer.Controllers
             }
         }
         [HttpGet("/teacher/my-commented-question")]
-        public async Task<IActionResult> GetAllById()
+        public async Task<IActionResult> GetAllById(int pageNumber = 1)
         {
             try
             {
                 var userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-
-                var question = await _questionService.GetAllQuestionBasedOnTeacherComment(Convert.ToInt32(userId));
+                var pageSize = 1;
+                var question = await _questionService.GetAllQuestionBasedOnTeacherComment(Convert.ToInt32(userId),pageNumber,pageSize);
 
                
                 return View(question);
@@ -60,7 +60,7 @@ namespace QAMS.PresentationLayer.Controllers
             }
         }
         [HttpGet("teacher/questions/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int id,int pageNumber = 1)
         {
             try
             {
@@ -68,7 +68,8 @@ namespace QAMS.PresentationLayer.Controllers
 
                 if (question is not null)
                 {
-                    var comments = await _commentService.GetAll(question.Id);
+                    var pageSize = 1;
+                    var comments = await _commentService.GetAll(question.Id,pageNumber,pageSize);
 
                     var response = new QuestionAndCommentVm(question, comments);
 

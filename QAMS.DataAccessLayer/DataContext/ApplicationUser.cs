@@ -20,6 +20,8 @@ namespace QAMS.DataAccessLayer.DataContext
         [Required]
         [MinLength(3)]
         public string InstituteName { get; set; }
+
+        public string? StudentId { get; set; }
         
     }
 

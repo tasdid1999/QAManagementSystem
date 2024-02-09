@@ -65,9 +65,9 @@ namespace QAMS.ServiceLayer.questionService
             }
         }
 
-        public async Task<List<QuestionResponseVm>> GetAllQuestionBasedOnTeacherComment(int userId)
+        public async Task<PaginatedList<QuestionResponseVm>> GetAllQuestionBasedOnTeacherComment(int userId,int page,int pageSize)
         {
-           return await _unitOfWork.QuestionRepository.GetAllQuestionBasedOnTeacherComment(userId);
+           return await _unitOfWork.QuestionRepository.GetAllQuestionBasedOnTeacherComment(userId,page,pageSize);
 
         }
 
@@ -85,11 +85,11 @@ namespace QAMS.ServiceLayer.questionService
             }
         }
 
-        public async Task<List<QuestionResponseVm>> GetAllQuestionsByIdAsync(int id)
+        public async Task<PaginatedList<QuestionResponseVm>> GetAllQuestionsByIdAsync(int id, int page, int pageSize)
         {
             try
             {
-                var listOfQuestion = await _unitOfWork.QuestionRepository.GetAllById(id);
+                var listOfQuestion = await _unitOfWork.QuestionRepository.GetAllById(id,page , pageSize);
 
                 return listOfQuestion;
             }

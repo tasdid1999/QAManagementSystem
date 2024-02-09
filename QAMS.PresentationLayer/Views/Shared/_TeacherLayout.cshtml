@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/QAMS.PresentationLayer.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body style="background-color:lightgray">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 shadow-sm p-3 mb-5 bg-white rounded ">
             <div class="container-fluid">
-                <a class="navbar-brand text-success" asp-area="" asp-controller="Home" asp-action="Index">QA Management System</a>
+                <a class="navbar-brand text-light bg-success px-3 border border-light" asp-area="" asp-controller="Home" asp-action="Index">QA System</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
                     </ul>
                     <div class="float-right">
 
-                        <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a>
+                        <a class="nav-link text-danger" asp-area="" asp-controller="Auth" asp-action="Logout">Logout</a>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted mt-5">
         <div class="container">
             &copy; 2024 - Created By Tasdid Alam - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

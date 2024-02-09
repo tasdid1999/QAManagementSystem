@@ -1,4 +1,5 @@
 ﻿using QAMS.DataAccessLayer.Domain;
+using QAMS.DataAccessLayer.Helper;
 using QAMS.DataAccessLayer.ResponseVm.comment;
 using QAMS.DataAccessLayer.ResponseVm.question;
 using QAMS.ServiceLayer.ClientEntity.comment;
@@ -14,10 +15,10 @@ namespace QAMS.ServiceLayer.ClientEntity.common
     {
         public QuestionResponseVm Question { get; set; }
 
-        public List<CommentResponseVm> Comments { get; set; }
+        public PaginatedList<CommentResponseVm> Comments { get; set; }
 
         public CommentRequestVm CommentRequestVm { get; set; }
-        public QuestionAndCommentVm(QuestionResponseVm question, List<CommentResponseVm> comments)
+        public QuestionAndCommentVm(QuestionResponseVm question, PaginatedList<CommentResponseVm> comments)
         {
             Question = question;
             Comments = comments;

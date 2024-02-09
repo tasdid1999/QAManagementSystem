@@ -24,10 +24,12 @@ namespace QAMS.PresentationLayer.Controllers
         }
         [HttpGet("/student/post-question")]
         public IActionResult Create()
-        {
-            ViewBag.Created = false;
-            ViewBag.SomethingWrong = false;
-
+        { 
+            if(TempData["Created"] == null && TempData["SomethingWrong"] == null)
+            {
+                TempData["Created"] = false;
+                TempData["SomethingWrong"] = false;
+            }
             return View();
         }
         [HttpPost("/student/post-question")]
@@ -45,15 +47,15 @@ namespace QAMS.PresentationLayer.Controllers
                     if (isSucces)
                     {
                         ModelState.Clear();
-                        ViewBag.Created = true;
-                        ViewBag.SomethingWrong = false;
-                        
-                        return View();
+                        TempData["Created"] = true;
+                        TempData["SomethingWrong"] = false;
+
+                        return RedirectToAction("Create","Student");
                     }
                 }
-                ViewBag.Created = false;
-                ViewBag.SomethingWrong = true;
-               
+                TempData["Created"] = false;
+                TempData["SomethingWrong"] = true;
+
                 return View(question);
             }
             catch(Exception ex)
@@ -81,17 +83,22 @@ namespace QAMS.PresentationLayer.Controllers
             }
         }
         [HttpGet("/student/my-questions")]
-        public async Task<IActionResult> GetAllById()
+        public async Task<IActionResult> GetAllById(int pageNumber = 1)
         {
             try
             {
                 var userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-                var questions = await _questionService.GetAllQuestionsByIdAsync(Convert.ToInt32(userId));
+                var pageSize = 1;
+                var questions = await _questionService.GetAllQuestionsByIdAsync(Convert.ToInt32(userId),pageNumber,pageSize);
 
-                ViewBag.Deleted = false;
-                ViewBag.NoTDeleted = false;
 
+                if (TempData["Deleted"]  == null && TempData["NotDeleted"] == null)
+                {
+                    TempData["Deleted"] = false;
+                    TempData["NotDeleted"] = false;
+                }
+                
                 return View(questions);
             }
             catch (Exception ex)
@@ -100,7 +107,7 @@ namespace QAMS.PresentationLayer.Controllers
             }
         }
         [HttpGet("/student/question/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int id,int pageNumber = 1)
         {
             try
             {
@@ -114,9 +121,10 @@ namespace QAMS.PresentationLayer.Controllers
                    
                     if (question.CreatedBy == userId)
                     {
-                        question.IsCommentBoxActivate = false;
+                        question.IsCommentBoxActivate = true;
                     }
-                    var comments = await _commentService.GetAll(question.Id);
+                    var pageSize = 1;
+                    var comments = await _commentService.GetAll(question.Id , pageNumber,pageSize);
 
                     var response = new QuestionAndCommentVm(question, comments);
 
@@ -165,14 +173,15 @@ namespace QAMS.PresentationLayer.Controllers
             var isDeleted = await _questionService.DeleteQuestionAsync(id);
             if (isDeleted)
             {
-                ViewBag.Deleted = true;
-                ViewBag.NoTDeleted = false;
+                TempData["Deleted"] = true;
+                TempData["NotDeleted"] = false;
                 return RedirectToAction("GetAllById", "Student");
+               
             }
             else
             {
-                ViewBag.Deleted = false;
-                ViewBag.NoTDeleted = true;
+                TempData["Deleted"] = false;
+                TempData["NotDeleted"] = true;
                 return RedirectToAction("GetAllById", "Student");
             }
         }

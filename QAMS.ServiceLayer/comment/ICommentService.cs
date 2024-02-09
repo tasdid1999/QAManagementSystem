@@ -1,4 +1,5 @@
 ﻿using QAMS.DataAccessLayer.Domain;
+using QAMS.DataAccessLayer.Helper;
 using QAMS.DataAccessLayer.ResponseVm.comment;
 using QAMS.ServiceLayer.ClientEntity.comment;
 using System;
@@ -13,6 +14,6 @@ namespace QAMS.ServiceLayer.comment
     {
         Task<bool> Create(CommentRequestVm comment,int userId);
 
-        Task<List<CommentResponseVm>> GetAll(int questionId);
+        Task<PaginatedList<CommentResponseVm>> GetAll(int questionId,int page , int pageSize);
     }
 }
