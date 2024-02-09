@@ -60,5 +60,7 @@ access certain parts of the website.<br>
 ![see-my-question](https://github.com/tasdid1999/QAManagementSystem/assets/75440032/10e3224f-3007-4ffd-88c6-b94bb638903e) <br>
 <br>
 <br>
-<h3>Database Schema</h1>
+<h3>Database Schema</h1><br>
 ![Db](https://github.com/tasdid1999/QAManagementSystem/assets/75440032/5773579f-1e6c-434e-b90a-c7c735895160)
+
+
