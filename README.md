@@ -4,7 +4,7 @@
 -------------------------------------------------------------------Requirements-----------------------------------------------------------------------------------------------------
 
 ● When students Log In to their accounts, in the student dashboard they will see the most
-recent questions that students ask.
+recent questions that students ask.<br>
 ● By clicking on a question they can see the question and answers of that specific
 question.
 ● Students should have another tab where he/she can see his/her questions and
