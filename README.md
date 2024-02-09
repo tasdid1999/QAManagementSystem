@@ -1,7 +1,7 @@
 # QA-Management-System <br>
 
 
--------------------------------------------------------------------Requirements------------------------------------------------------------------------------------------------<br>
+-------------------------------------------------------------------Requirements-----------------------------------------------------------<br>
 
 ● When students Log In to their accounts, in the student dashboard they will see the most
 recent questions that students ask.<br>
